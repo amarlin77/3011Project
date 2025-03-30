@@ -7,4 +7,4 @@ enum buttonPressed {
 		F,// 101
 		G,// 110
 		Start// 111
-	}
+	};
