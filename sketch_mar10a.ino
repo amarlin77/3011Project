@@ -105,6 +105,7 @@ long measureDistance(int trigPin, int echoPin) {
 
 void playNote(int freq, int duration) {
   analogWriteFrequency(audioPin, freq);
+  delay(duration);
 }
 
 void playSound() {
@@ -215,7 +216,7 @@ void setup() {
   //setup motor
   pinMode(MOTI1, OUTPUT);
   pinMode(MOTI2, OUTPUT);
-  pinMode(PWM, output);
+  pinMode(PWM, OUTPUT);
 
   //setup LCD
   Wire.begin(12,13);
@@ -305,36 +306,36 @@ void loop() {
 
     int temp = 0; // we can correlate each button pressed with a value. A = 1, B = 2, etc.. if more than one are pressed, they add to each other so in our challenge we will stay put
     if (buttonA) {
-      playNote(A, 1000);// make sure to go back and adjust these notes for frequencies
-      buttonPressed += 1;
+      playNote(220, 1000);// make sure to go back and adjust these notes for frequencies
+     temp += 1;
     } 
     if (buttonB) {
-      playNote(B, 1000);// make sure to go back and adjust these notes for frequencies
-      buttonPressed += 2;
+      playNote(247, 1000);// make sure to go back and adjust these notes for frequencies
+       temp += 2;
     } 
     if (buttonC) {
-      playNote(C, 1000);// make sure to go back and adjust these notes for frequencies
-      buttonPressed += 3;
+      playNote(131, 1000);// make sure to go back and adjust these notes for frequencies
+      temp += 3;
     } 
     if (buttonD) {
-      playNote(D, 1000); // make sure to go back and adjust these notes for frequencies
-      buttonPressed += 4;
+      playNote(147, 1000); // make sure to go back and adjust these notes for frequencies
+      temp += 4;
     } 
     if (buttonE) {
-      playNote(E, 1000); // make sure to go back and adjust these notes for frequencies
-      buttonPressed += 5;
+      playNote(165, 1000); // make sure to go back and adjust these notes for frequencies
+      temp += 5;
     } 
     if (buttonF) {
-      playNote(F, 1000); // make sure to go back and adjust these notes for frequencies
-      buttonPressed += 6;
+      playNote(175, 1000); // make sure to go back and adjust these notes for frequencies
+      temp += 6;
     } 
     if (buttonG) {
-      playNote(G, 1000); // make sure to go back and adjust these notes for frequencies
-      buttonPressed += 7;
+      playNote(196, 1000); // make sure to go back and adjust these notes for frequencies
+      temp += 7;
     } 
 
     // So when the correct button is pressed it should increase the stage. This should update as the displayToScreen() function is always being called
-    if (buttonPressed == (challenge[stage])+1){
+    if (temp == (challenge[stage])+1){
       stage++;
     }
 
