@@ -19,9 +19,7 @@ const int BUT7 = 6;
 // Motor Driver
 const int MOTI1 = 7;
 const int MOTI2 = 8;
-const int MOTO1 = 9;
-const int MOTO2 = 10;
-const int PWM = 11;
+const int PWM = 9;
 
 //LCD Pins
 const int SDA = 12;
@@ -125,7 +123,24 @@ void playSound() {
 
 }
 
-void motorControl(int speed, )
+void motorControl(int speed, int time) {
+  
+  // move "forward" at speed (0-255) for half the period
+  digitalWrite(MOTI1, HIGH);
+  digitalWrite(MOTI2, LOW);
+  analogWrite(PWM,speed);
+  delay(time/2);
+
+  // now we have to move backward for half the period
+  digitalWrite(MOTI2, HIGH);
+  digitalWrite(MOTI1, LOW);
+  analogWrite(PWM,speed);
+  delay(time/2);
+
+  //this should end up being cyclical
+
+}
+
 
 
 // buttonPressed readButtonPressed() { 
@@ -198,8 +213,9 @@ void setup() {
   digitalWrite(TRIG, LOW);
 
   //setup motor
-  pinMode(motorPin1, OUTPUT);
-  pinMode(motorPin2, OUTPUT);
+  pinMode(MOTI1, OUTPUT);
+  pinMode(MOTI2, OUTPUT);
+  pinMode(PWM, output);
 
   //setup LCD
   Wire.begin(12,13);
@@ -263,6 +279,10 @@ void loop() {
       delay(500);
       gs = GAME_SCREEN;
     }
+
+    if (gs == GAME_SCREEN) {
+      motorControl(200, 2);
+    }
     //  String pressedButtons = "";
     //
     //  for (int i = 0; i < 8; i++) {
@@ -283,7 +303,7 @@ void loop() {
     int buttonF = digitalRead(BUT4);
     int buttonG = digitalRead(BUT5);
 
-    buttonPressed temp = NULL; // we can correlate each button pressed with a value. A = 1, B = 2, etc.. if more than one are pressed, they add to each other so in our challenge we will stay put
+    int temp = 0; // we can correlate each button pressed with a value. A = 1, B = 2, etc.. if more than one are pressed, they add to each other so in our challenge we will stay put
     if (buttonA) {
       playNote(A, 1000);// make sure to go back and adjust these notes for frequencies
       buttonPressed += 1;
@@ -313,15 +333,14 @@ void loop() {
       buttonPressed += 7;
     } 
 
-    if (buttonPressed == challenge[stage]){
+    // So when the correct button is pressed it should increase the stage. This should update as the displayToScreen() function is always being called
+    if (buttonPressed == (challenge[stage])+1){
       stage++;
     }
 
-
-
-
-
-
+    if (stage == sizeof(challenge)/sizeof(buttonPressed)) {
+      gs = GAME_OVER;
+    }
 
   }
 // Constantly read the input signal in from the hall effect sensor. 
